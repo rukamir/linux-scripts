@@ -5,7 +5,7 @@ if [ $(id -u) = 0 ]; then
    exit 1
 fi
 
-sudo apt update -y && apt upgrade -y
+sudo apt update -y && sudo apt upgrade -y
 
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
@@ -21,7 +21,7 @@ export PATH=$PATH:/usr/local/go/bin
 EOT
 
 # Install other stuff I need
-sudo apt install -y vim tree docker-ce sshfs vlc git curl \
+sudo apt install -y vim tree sshfs vlc git curl \
     python python3 youtube-dl default-jre default-jdk gradle
     
 # Install docker-ce
@@ -39,11 +39,18 @@ sudo apt-get -y install \
 	&& sudo apt-get update && sudo apt-get install docker-ce
 
 # Install docker compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" \
+	-o /usr/local/bin/docker-compose \
 	&& sudo chmod +x /usr/local/bin/docker-compose
 
-# Install current VS Code
-wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O ~/Downloads/vs-code-current.deb \
+# Install Chrome
+wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
+	-O ~/Downloads/google-chrome-stable_current_amd64.deb \
+	&& sudo dpkg -i ~/Downloads/google-chrome-stable_current_amd64.deb
+
+# Install VS Code
+wget "https://go.microsoft.com/fwlink/?LinkID=760868" \
+	-O ~/Downloads/vs-code-current.deb \
 	&& sudo dpkg -i ~/Downloads/vs-code-current.deb
 
 # Install Discord
@@ -51,11 +58,18 @@ wget "https://discordapp.com/api/download?platform=linux&format=deb" -O ~/Downlo
 	&& sudo dpkg -i ~/Downloads/discord-current.deb
 
 # Install ExpressVPN
-wget "https://download.expressvpn.xyz/clients/linux/expressvpn_1.4.5_amd64.deb" -O ~/Downloads/expressvpn_1.4.5_amd64.deb \
+wget "https://download.expressvpn.xyz/clients/linux/expressvpn_1.4.5_amd64.deb" \
+	-O ~/Downloads/expressvpn_1.4.5_amd64.deb \
 	&& sudo dpkg -i ~/Downloads/expressvpn_1.4.5_amd64.deb
 
-# If something broke
+# Install MySQL workbench
+wget "https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community_8.0.12-1ubuntu18.04_amd64.deb" \
+	-O ~/Downloads/mysql-workbench-community_8.0.12-1ubuntu18.04_amd64.deb \
+	&& sudo dpkg -i ~/Downloads/mysql-workbench-community_8.0.12-1ubuntu18.04_amd64.deb
+
+# If something broke and update manual installs
 sudo apt --fix-broken install
+sudo apt update -y && sudo apt upgrade -y
 
 # Gimme some keys
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
@@ -73,6 +87,7 @@ alias dockstop="sudo docker container stop"
 alias dockls="sudo docker container ls"
 alias gs="git status"
 alias gaa="git add ."
+alias sbash="source ~/.bashrc"
 export PATH=$PATH:$HOME/scripts
 EOT
 
