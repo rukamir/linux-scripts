@@ -7,6 +7,10 @@ fi
 
 sudo apt update -y && sudo apt upgrade -y
 
+# Install stuff
+sudo apt install -y vim tree sshfs vlc git curl \
+    python python3 youtube-dl default-jre default-jdk gradle
+
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
 	&& sudo apt install -y nodejs build-essential
@@ -15,14 +19,9 @@ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
 wget "https://dl.google.com/go/go1.11.linux-amd64.tar.gz" -O ~/Downloads/go1.11.tar.gz \
 	&& sudo tar -C /usr/local -xzf ~/Downloads/go1.11.tar.gz \
 	&& echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
-
 cat <<EOT >> ~/.bashrc
 export PATH=$PATH:/usr/local/go/bin
 EOT
-
-# Install other stuff I need
-sudo apt install -y vim tree sshfs vlc git curl \
-    python python3 youtube-dl default-jre default-jdk gradle
     
 # Install docker-ce
 sudo apt-get -y install \
